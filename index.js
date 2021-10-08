@@ -16,4 +16,4 @@ app.post("/auth", ( req, res, next)=>{
 })
 
 
-app.listen(9090)
+app.listen(9090);
