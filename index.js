@@ -9,9 +9,9 @@ app.use(cors({ origin: '*' }))
 app.get("/",(req, res, next)=> res.send("You are not supposed to be here yet"))
 
 app.post("/auth", ( req, res, next)=>{
-  let r = req.body
+  let r = req.headers.authorization
   console.log(r)
-  if(r.password !== "test") return res.json({ message: "Unauthorized" })
+  if(r !== "Basic test") return res.json({ message: "Unauthorized" })
   else res.json({ message: "Understandable have a nice day" })
 })
 

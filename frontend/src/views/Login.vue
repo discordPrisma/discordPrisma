@@ -16,8 +16,7 @@
 </template>
 
 <script>
-import router from '../router/index'
-import { userService } from '../services/user.service'
+import fetchAPI from '../helper'
 
 export default {
   data () {
@@ -25,31 +24,32 @@ export default {
       password: '',
       submitted: false,
       loading: false,
-      returnUrl: '',
+      goto: '',
       error: ''
     }
   },
   created () {
-    userService.logout()
-    this.returnUrl = this.$route.query.returnUrl || '/'
+    localStorage.removeItem('password')
+    this.goto = this.$route.query.goto || '/'
   },
   methods: {
     async handleSubmit (e) {
       console.log(e)
       this.submitted = true
       const { password } = this
-
+      localStorage.setItem('password', window.btoa(password))
       // stop here if form is invalid
       if (!password) return
 
       this.loading = true
-      const response = await userService.login(password)
+      const response = await fetchAPI('POST', 'auth', {password} )
       console.log(response)
       if (response.message !== 'Understandable have a nice day') {
         this.loading = false
         this.error = response.message
       } else {
-        router.push(this.returnUrl)
+        localStorage.setItem('password', window.btoa(password))
+        this.$router.push(this.goto)
       }
     }
   }
