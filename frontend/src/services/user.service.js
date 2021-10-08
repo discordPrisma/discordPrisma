@@ -8,7 +8,7 @@ export const userService = {
 const apiURL = 'http://localhost:9090'
 
 function login (password) {
-  return fetch(`${apiURL}/auth`, {
+  return fetch(`${location.origin}/auth`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ password })
